@@ -7,7 +7,7 @@ $HADOOP_HOME/sbin/start-dfs.sh
 	http://localhost:50070/
 
 hdfs dfs -mkdir /user
-hdfs dfs -mkdir /user/<kche3935>
+hdfs dfs -mkdir /user/kche3935
 
 		//stop
 		$HADOOP_HOME/sbin/stop-dfs.sh
@@ -31,9 +31,21 @@ $HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
 
 		To stop YARN, run the following:
 		$HADOOP_HOME/sbin/stop-yarn.sh
+(1)0 data node----
+	delete hadoop-data hadoop-logs
+	source .profile	
+	recreate
+(2)safe mode----
+	cd /usr/local/hadoop-2.9.0
+	bin/hadoop dfsadmin -safemode leave
 
 
+1.xml->jar
+ant
 
+2.put file on hdfs
 hdfs dfs -put ~/comp5349/lab_commons/data/partial.txt partial.txt
 
-ant
+3.runs the code :
+hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive
+
