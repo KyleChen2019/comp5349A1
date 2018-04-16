@@ -1,0 +1,39 @@
+Format the file system with:
+hdfs namenode -format
+
+Then start all HDFS services with
+$HADOOP_HOME/sbin/start-dfs.sh
+
+	http://localhost:50070/
+
+hdfs dfs -mkdir /user
+hdfs dfs -mkdir /user/<kche3935>
+
+		//stop
+		$HADOOP_HOME/sbin/stop-dfs.sh
+
+
+
+
+//yarn
+$HADOOP_HOME/sbin/start-yarn.sh
+	
+	http://localhost:8088/
+
+Create a directory on HDFS to save application logs
+hdfs dfs -mkdir -p /var/log/hadoop-yarn/apps
+
+Start a job history server so we have a web UI to access job logs:
+$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh start historyserver
+
+		To stop jobhistory, run the following
+		$HADOOP_HOME/sbin/mr-jobhistory-daemon.sh stop historyserver
+
+		To stop YARN, run the following:
+		$HADOOP_HOME/sbin/stop-yarn.sh
+
+
+
+hdfs dfs -put ~/comp5349/lab_commons/data/partial.txt partial.txt
+
+ant
