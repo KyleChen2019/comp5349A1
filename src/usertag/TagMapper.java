@@ -3,6 +3,7 @@ package usertag;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
+import org.apache.hadoop.conf.Configuration;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -32,7 +33,13 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 		String[] dataArray = value.toString().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);
 
 		//args[0],argus[1], testvalue is hardcode.
-		String countryA="GB",countryB="US";
+	//	String countryA="GB",countryB="US";
+
+		Configuration conf = context.getConfiguration();
+		String countryA= conf.get("countryAA");
+		String countryB= conf.get("countryBB");
+	//	conf.set("countryAA","GB");
+
 		if (dataArray.length < 18){ //  record with incomplete data
 			return; // don't emit anything
 		}
@@ -43,7 +50,7 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 		//	String[] tagArray = tagString.split(" ");
 //			for(String tag: tagArray) {
 				if (asciiEncoder.canEncode(tagString)){
-					if(dataArray[17].equals("GB")||dataArray[17].equals("US"))
+					if(dataArray[17].equals(countryA)||dataArray[17].equals(countryB))
 					{
 						word.set(tagString);
 						owner.set(ownerString);

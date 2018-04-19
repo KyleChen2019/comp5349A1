@@ -22,15 +22,15 @@ public class TagDriver {
 		//获得输入参数 [hdfs://localhost:9000/user/dat/input,
 		//hdfs://localhost:9000/user/dat/output]
 		String[] otherArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
-		if (otherArgs.length != 2) {
+		if (otherArgs.length != 4) {
 			System.err.println("Usage: TagDriver <in> <out>");
 			System.exit(2);
 		}
 		String tmpCountryA = otherArgs[2];
 		String tmpCountryB = otherArgs[3];
 
-		conf.set(tmpCountryA);
-		conf.set(tmpCountryB);
+		conf.set("countryAA",tmpCountryA);
+		conf.set("countryBB",tmpCountryB);
 		//设置Job属性
 		Job job = new Job(conf, "tag owner inverted list");
 		job.setNumReduceTasks(1); // we use three reducers, you may modify the number

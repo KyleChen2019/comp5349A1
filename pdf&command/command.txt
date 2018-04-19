@@ -46,19 +46,22 @@ ant
 2.put file on hdfs
 hdfs dfs -put ~/comp5349/lab_commons/data/partial.txt partial.txt
 hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv out1.csv
+hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv /user/kche3935/out1.csv
+
 
 3.runs the code :
 hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive1
 hadoop jar userTag.jar usertag.TagDriver out1.csv out1
+hadoop jar userTag.jar usertag.TagDriver /user/kche3935/out1.csv out1
 
 4.delte old output
 hdfs dfs -rm -r -f out1
-
+hdfs dfs -rm -r -f /user/kche3935/out1
 
 
 week6
 • HDFS name node process, with a web UI:
-http://soit-hdp-pro-1.ucc.usyd.edu.au:50070.
+http://soit-hdp-pro-1.ucc.usyd.edu.au:50070
 • YARN Resource Manager process, with a web UI:
 http://soit-hdp-pro-1.ucc.usyd.edu.au:8088.
 • MapReduce history server, with a web UI:
