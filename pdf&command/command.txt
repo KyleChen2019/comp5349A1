@@ -66,6 +66,10 @@ http://soit-hdp-pro-1.ucc.usyd.edu.au:19888
 • Spark history server, with a web UI:
 http://soit-hdp-pro-1.ucc.usyd.edu.au:18080
 Q1:
+
+ ssh soit-hdp-pro-1.ucc.usyd.edu.au
+
+
 	hdfs-site.xml	core-site.xml
 	$HADOOP_HOME/sbin/start-dfs.sh
 	hdfs dfs -put ~/comp5349/lab_commons/data/place.txt /user/kche3935/place.txt
