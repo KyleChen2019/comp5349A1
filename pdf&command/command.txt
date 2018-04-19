@@ -68,6 +68,7 @@ http://soit-hdp-pro-1.ucc.usyd.edu.au:18080
 Q1:
 
  ssh soit-hdp-pro-1.ucc.usyd.edu.au
+	exit
 
 
 	hdfs-site.xml	core-site.xml
