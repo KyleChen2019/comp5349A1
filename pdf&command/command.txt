@@ -45,7 +45,12 @@ ant
 
 2.put file on hdfs
 hdfs dfs -put ~/comp5349/lab_commons/data/partial.txt partial.txt
+hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv out1.csv
 
 3.runs the code :
-hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive
+hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive1
+hadoop jar userTag.jar usertag.TagDriver out1.csv out1
+
+4.delte old output
+hdfs dfs -rm -r -f out1
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="userTag" basedir="." default="jar">
+
+<!-- 每个构建文件都需要以project标签包含起来。
+property类似于常量，可以供给build.xml中的其他标签使用。有两个特点： -->
+
+    <property name="src.dir" value="src"/>
+    <property name="classes.dir" value="classes"/>
+    <property name="eclipseclasses.dir" value ="bin"/>
+    <property environment="env"/>
+    <path id ="hadoop-classpath">
+	<!-- fileset文件集标签，通常与任务结合来使用 -->
+        <fileset dir="${env.HADOOP_HOME}/share/hadoop/">
+            <include name="common/*.jar"/>
+            <include name="common/lib/*.jar"/>
+            <include name="mapreduce/*.jar"/>
+            <include name="mapreduce/lib/*.jar"/>
+        </fileset>
+    </path>
+	
+	<!-- target任务，一个project标签下有一个或多个target标签，
+	代表任务，任务间可以存在依赖关系。 -->
+    <target name="clean" description="Delete all generated files">
+<!-- 	删除文件或文件目录，有如下属性 
+- file：删除文件 
+- dir：删除目录 
+- includeEmptyDirs：值得是否删除空目录，默认是true 
+- failonerror：报错是否停止，默认是true 
+- verbose：是否列出删除的文件，默认是false -->
+        <delete dir="${classes.dir}" failonerror="false"/>
+        <delete file="${ant.project.name}.jar"/>
+    </target>
+
+    <target name="compile" description="Compiles the Task">
+	<!-- 创建一个目录+编译源文件 -->
+    	<mkdir dir="${classes.dir}"/>
+        <javac target= "1.8" srcdir="${src.dir}" 
+        destdir="${classes.dir}"
+        classpathref ="hadoop-classpath"
+        />
+    </target>
+
+	
+	<!-- 将class文件打成jar包 -->
+    <target name="jar" description="JARs the Task" depends = "compile">
+        <jar destfile="${ant.project.name}.jar" basedir="${classes.dir}"/>
+    </target>
+
+    <target name="EclipseJar" description="create a jar for tag owner list package in Eclipse">
+	<jar destfile="{ant.project.name}.jar" basedir="${eclipseclasses.dir}" includes="usertag/*.class"/>
+	</target>
+</project>
