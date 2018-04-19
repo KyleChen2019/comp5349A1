@@ -31,19 +31,25 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 //	String[] dataArray = value.toString().split("(?!\"[^,]+),(?![^,]+\")"); //split the data into array
 		String[] dataArray = value.toString().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);
 
+		//args[0],argus[1], testvalue is hardcode.
+		String countryA="GB",countryB="US";
 		if (dataArray.length < 18){ //  record with incomplete data
 			return; // don't emit anything
 		}
-		String tagString = dataArray[5];//category,country
-		String ownerString = dataArray[17]+dataArray[0];//video_id
+		String tagString = dataArray[5]+dataArray[17];//category,country
+		String ownerString = dataArray[0];//video_id
 
 		if (tagString.length() > 0){
 		//	String[] tagArray = tagString.split(" ");
 //			for(String tag: tagArray) {
 				if (asciiEncoder.canEncode(tagString)){
-					word.set(tagString);
-					owner.set(ownerString);
-					context.write(word, owner);
+					if(dataArray[17].equals("GB")||dataArray[17].equals("US"))
+					{
+						word.set(tagString);
+						owner.set(ownerString);
+						context.write(word, owner);
+					}
+					else{}
 				}
 //			}
 		}

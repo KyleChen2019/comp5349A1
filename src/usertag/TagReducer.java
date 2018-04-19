@@ -13,20 +13,22 @@ import org.apache.hadoop.mapreduce.Reducer;
  *
  * Output for the above input key valueList
  * dog -> 48889082718@N01=2,3423249@N01=1,
- * 
+ *
  * @author Ying Zhou
  *
  */
 public class TagReducer extends Reducer<Text, Text, Text, Text> {
 	Text result = new Text();
-	public void reduce(Text key, Iterable<Text> values, 
+	public void reduce(Text key, Iterable<Text> values,
 			Context context
 	) throws IOException, InterruptedException {
 
 		// create a map to remember the owner frequency
 		// keyed on owner id
 		Map<String, Integer> ownerFrequency = new HashMap<String,Integer>();
-		
+
+		double sum = 0.0;
+
 		for (Text text: values){
 			String ownerId = text.toString();
 			if (ownerFrequency.containsKey(ownerId)){
@@ -37,8 +39,11 @@ public class TagReducer extends Reducer<Text, Text, Text, Text> {
 		}
 		StringBuffer strBuf = new StringBuffer();
 		for (String ownerId: ownerFrequency.keySet()){
-			strBuf.append(ownerId + "="+ownerFrequency.get(ownerId)+",");
+			sum++;
+			//strBuf.append(sum+",");
+			//strBuf.append(ownerId + "="+ownerFrequency.get(ownerId)+",");
 		}
+					strBuf.append(sum);
 		result.set(strBuf.toString());
 		context.write(key, result);
 	}
