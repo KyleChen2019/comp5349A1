@@ -73,6 +73,6 @@ Q1:
 	hdfs-site.xml	core-site.xml
 	$HADOOP_HOME/sbin/start-dfs.sh
 	hdfs dfs -put ~/comp5349/lab_commons/data/place.txt /user/kche3935/place.txt
-	hdfs dfs -ls /share/movie^C
+	hdfs dfs -ls /share/movie
 
 
