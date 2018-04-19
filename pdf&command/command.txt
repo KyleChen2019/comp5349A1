@@ -54,3 +54,21 @@ hadoop jar userTag.jar usertag.TagDriver out1.csv out1
 4.delte old output
 hdfs dfs -rm -r -f out1
 
+
+
+week6
+• HDFS name node process, with a web UI:
+http://soit-hdp-pro-1.ucc.usyd.edu.au:50070.
+• YARN Resource Manager process, with a web UI:
+http://soit-hdp-pro-1.ucc.usyd.edu.au:8088.
+• MapReduce history server, with a web UI:
+http://soit-hdp-pro-1.ucc.usyd.edu.au:19888
+• Spark history server, with a web UI:
+http://soit-hdp-pro-1.ucc.usyd.edu.au:18080
+Q1:
+	hdfs-site.xml	core-site.xml
+	$HADOOP_HOME/sbin/start-dfs.sh
+	hdfs dfs -put ~/comp5349/lab_commons/data/place.txt /user/kche3935/place.txt
+	hdfs dfs -ls /share/movie^C
+
+
