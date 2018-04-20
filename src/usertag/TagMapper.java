@@ -29,22 +29,34 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 	public void map(Object key, Text value, Context context
 	) throws IOException, InterruptedException {
 
+
+
+		Configuration conf = context.getConfiguration();
+		String countryA= conf.get("countryAA");
+		String countryB= conf.get("countryBB");
+		if(value.toString().substring(value.toString().length()-2).equals(countryA) ||
+			value.toString().substring(value.toString().length()-2).equals(countryB)
+		)
+		{
+
+
 //	String[] dataArray = value.toString().split("(?!\"[^,]+),(?![^,]+\")"); //split the data into array
 		String[] dataArray = value.toString().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);
 
 		//args[0],argus[1], testvalue is hardcode.
 	//	String countryA="GB",countryB="US";
 
-		Configuration conf = context.getConfiguration();
+/*		Configuration conf = context.getConfiguration();
 		String countryA= conf.get("countryAA");
-		String countryB= conf.get("countryBB");
+		String countryB= conf.get("countryBB");*/
+
 	//	conf.set("countryAA","GB");
 
 		if (dataArray.length < 18){ //  record with incomplete data
 			return; // don't emit anything
 		}
-		String tagString = dataArray[5]+dataArray[17];//category,country
-		String ownerString = dataArray[0];//video_id
+		String tagString = dataArray.length+dataArray[5];//category,country
+		String ownerString = dataArray[17]+dataArray[0];//video_id
 
 		if (tagString.length() > 0){
 		//	String[] tagArray = tagString.split(" ");
@@ -60,5 +72,8 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 				}
 //			}
 		}
+
+}//add
+
 	}
 }

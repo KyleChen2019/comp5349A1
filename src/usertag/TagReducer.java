@@ -39,11 +39,15 @@ public class TagReducer extends Reducer<Text, Text, Text, Text> {
 		}
 		StringBuffer strBuf = new StringBuffer();
 		for (String ownerId: ownerFrequency.keySet()){
-			sum++;
+			//sum++;
 			//strBuf.append(sum+",");
-			//strBuf.append(ownerId + "="+ownerFrequency.get(ownerId)+",");
+			strBuf.append(ownerId + "="+ownerFrequency.get(ownerId)+",");
+
+			//split GB,US to array[2][];
+			//if()
 		}
-					strBuf.append(sum);
+				//	strBuf.append("total: "+ownerFrequency.size()+";");
+					strBuf.insert(0,"; total: "+ownerFrequency.size()+";");
 		result.set(strBuf.toString());
 		context.write(key, result);
 	}

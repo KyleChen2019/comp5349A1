@@ -52,7 +52,7 @@ hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv /user/kche3935/out1.c
 3.runs the code :
 hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive1
 hadoop jar userTag.jar usertag.TagDriver out1.csv out1
-hadoop jar userTag.jar usertag.TagDriver /user/kche3935/out1.csv out1
+hadoop jar userTag.jar usertag.TagDriver /user/kche3935/out1.csv out1 GB US
 
 4.delte old output
 hdfs dfs -rm -r -f out1
