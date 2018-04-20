@@ -107,6 +107,8 @@ hdfs dfs -put ~/comp5349/lab_commons/data/week5/ /user/kche3935/week5
 3.runs the code :
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
+spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar / testA2/
+
 
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar /user/kche3935/week5/ out-sparkTmp/
 spark-submit --class ml.MovieLensLarge --master yarn --deploy-mode cluster --num-executors 3 sparkML.jar \
