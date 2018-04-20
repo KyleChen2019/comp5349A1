@@ -55,7 +55,7 @@ public class TagMapper extends Mapper<Object, Text, Text, Text> {
 		if (dataArray.length < 18){ //  record with incomplete data
 			return; // don't emit anything
 		}
-		String tagString = dataArray.length+dataArray[5];//category,country
+		String tagString = dataArray[5];//category,country
 		String ownerString = dataArray[17]+dataArray[0];//video_id
 
 		if (tagString.length() > 0){
