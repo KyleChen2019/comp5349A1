@@ -51,7 +51,7 @@ hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv /user/kche3935/out1.c
 
 3.runs the code :
 hadoop jar userTag.jar usertag.TagDriver partial.txt userTagOutNaive1
-hadoop jar userTag.jar usertag.TagDriver out1.csv out1
+hadoop jar userTag.jar usertag.TagDriver out1.csv out1 GB US
 hadoop jar userTag.jar usertag.TagDriver /user/kche3935/out1.csv out1 GB US
 
 4.delte old output
@@ -93,7 +93,7 @@ $HADOOP_HOME/sbin/start-dfs.sh
 
 $HADOOP_HOME/sbin/start-yarn.sh
 
- ssh soit-hdp-pro-1.ucc.usyd.edu.au
+sh soit-hdp-pro-1.ucc.usyd.edu.au
 ssh soit-hdp-pro-1.ucc.usyd.edu.au:8088
 http://soit-hdp-pro-1.ucc.usyd.edu.au:8088
 
@@ -101,12 +101,13 @@ http://soit-hdp-pro-1.ucc.usyd.edu.au:8088
 ant
 
 2.put file on hdfs
-hdfs dfs -put week5 week5
+hdfs dfs -put ~/comp5349/lab_commons/data/week5/ week5
 hdfs dfs -put ~/comp5349/lab_commons/data/week5/ /user/kche3935/week5
 
 3.runs the code :
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
-spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar /user/kche3935/week5/ out-sparkTmp/
+spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
 
+spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar /user/kche3935/week5/ out-sparkTmp/
 spark-submit --class ml.MovieLensLarge --master yarn --deploy-mode cluster --num-executors 3 sparkML.jar \
 /share/movie/ week6-out-java
