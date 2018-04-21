@@ -88,8 +88,25 @@ public class MovieLensLarge {
 
 			JavaPairRDD<String, String> phase2 = phase1.reduceByKey((x,y) -> x+"|"+y);
 
+			JavaPairRDD<String, String> phase3 = phase2.mapToPair(x ->
+				{
+					String[] values = x._2.split("\|");
+					int tmp = values.length;
+					String tmpS = String.valueOf(tmp);
+					if(tmp >=2)
+					{
+							return	new Tuple2<String,String>(x._1,"GG"+x._2);
+					}
+					else
+					{
+							return	new Tuple2<String,String>(x._1,"-F-"+x._2);
+					}
 
-	    phase2.saveAsTextFile(outputDataPath);
+				//	return	new Tuple2<String,String>("1","2");
+				}
+			);
+
+	    phase3.saveAsTextFile(outputDataPath);
 	    sc.close();
 	  }
 }
