@@ -47,6 +47,7 @@ ant
 hdfs dfs -put ~/comp5349/lab_commons/data/partial.txt partial.txt
 hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv out1.csv
 hdfs dfs -put ~/comp5349/lab_commons/data/a1/ALLvideos.csv /user/kche3935/out1.csv
+hdfs dfs -put ~/comp5349/lab_commons/data/week5/out3.csv out3.csv
 
 
 3.runs the code :
@@ -88,6 +89,7 @@ Spark part:
 
 Start spark history server with the following command:
 $SPARK_HOME/sbin/start-history-server.sh
+	http://localhost:18080/
 
 $HADOOP_HOME/sbin/start-dfs.sh
 
@@ -107,7 +109,7 @@ hdfs dfs -put ~/comp5349/lab_commons/data/week5/ /user/kche3935/week5
 3.runs the code :
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ week5-out-java/
-spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar / testA2/
+spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar week5/ testA2/
 
 
 spark-submit --class ml.MovieLensLarge --master local[4] sparkML.jar /user/kche3935/week5/ out-sparkTmp/
