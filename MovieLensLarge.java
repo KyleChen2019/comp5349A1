@@ -3,6 +3,8 @@ package ml;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import org.apache.spark.api.java.*;
 import org.apache.spark.SparkConf;
@@ -66,7 +68,7 @@ public class MovieLensLarge {
 						{
 						if(values[0].equals("video_id"))
 						{
-													System.out.println("line0");
+													System.out.println("phase1 ing!");
 												return	new Tuple2<String, String>("line0","");
 						}
 						else{
@@ -86,16 +88,16 @@ public class MovieLensLarge {
 	    	}
 	    );
 
-			JavaPairRDD<String, String> phase2 = phase1.reduceByKey((x,y) -> x+"|"+y);
+			JavaPairRDD<String, String> phase2 = phase1.reduceByKey((x,y) -> x+"##"+y);
 
-			JavaPairRDD<String, String> phase3 = phase2.mapToPair(x ->
+		/*	JavaPairRDD<String, String> phase3 = phase2.mapToPair(x ->
 				{
-					String[] values = x._2.split("\|");
+					String[] values = x._2.split("##");
 					int tmp = values.length;
 					String tmpS = String.valueOf(tmp);
 					if(tmp >=2)
 					{
-							return	new Tuple2<String,String>(x._1,"GG"+x._2);
+							return	new Tuple2<String,String>(x._1,"-G-"+x._2);
 					}
 					else
 					{
@@ -104,9 +106,129 @@ public class MovieLensLarge {
 
 				//	return	new Tuple2<String,String>("1","2");
 				}
-			);
+			);*/
 
-	    phase3.saveAsTextFile(outputDataPath);
+			//find the RDD which dates are more than two
+			JavaPairRDD<String, String> phase3 = phase2.filter(new Function<Tuple2<String,String>,Boolean>(){
+
+			            private static final long serialVersionUID = 1L;
+
+			            @Override
+			            public Boolean call(Tuple2<String,String> x) throws Exception {
+			                // TODO Auto-generated method stub
+								String[] values = x._2.split("##");
+								int tmp = values.length;
+								//String tmpS = String.valueOf(tmp);
+			                return tmp>=2?true:false;
+			            }
+			        });
+
+							JavaPairRDD<String, String> phase4 = phase3.mapToPair(s ->
+								{
+									String[] values = s._2.split("##");
+									int tmp = values.length;
+									if(tmp>2)
+									{
+										String inputPart2 = values[0]+"##"+values[1];
+										return	new Tuple2<String, String>(s._1,inputPart2);
+									}
+									else
+									{
+										return s;
+									}
+								}
+							);
+
+
+							//18.26.01---493296##18.27.01---685038
+							JavaPairRDD<String, Double> phase5 = phase4.mapToPair(s ->
+								{
+									/*java.text.DecimalFormat df = new java.text.DecimalFormat("#.0");*/
+									String[] values = s._2.split("##");
+									Double per = Double.parseDouble( values[1].substring(11) )/
+																Double.parseDouble( values[0].substring(11) )*100;
+								/*	String  finalPart2 = df.format(per)+"%";*/
+
+									return	new Tuple2<String, Double>(s._1,per);
+								}
+							);
+
+							JavaPairRDD<String, Double> phase6 = phase5.filter(new Function<Tuple2<String,Double>,Boolean>(){
+
+							            private static final long serialVersionUID = 1L;
+
+							            @Override
+							            public Boolean call(Tuple2<String,Double> x) throws Exception {
+							                // TODO Auto-generated method stub
+							                return x._2>=1000?true:false;
+							            }
+							        });
+
+								JavaPairRDD<String, Tuple2<String,Double>> phase7 = phase6.mapToPair(s ->
+									{
+										/*java.text.DecimalFormat df = new java.text.DecimalFormat("#.0");*/
+										String[] values = s._1.split("---");
+
+
+										return	new Tuple2<String, Tuple2<String,Double>>(
+                                values[1],new Tuple2<String, Double>(values[0], s
+                                        ._2()));
+									}
+								).sortByKey(true);
+
+
+
+								/*JavaPairRDD<Tuple<Tuple2<String,String>, Double>,Double> phase8 = phase7.mapToPair(s ->
+									{
+
+										String tmp1 = s._1+s._2._1;
+										Double tmp2 = s._2._2;
+
+
+										return	new Tuple2<Tuple2<String,String>, Double>(
+																new Tuple2<String, String>(s._1, s
+																				._2._1()) , tmp2);
+									}
+								);
+
+
+
+								 class Comp implements Comparator<Double>,Serializable{
+							    @Override
+							    public int compare(Double o1s, Double o2s) {
+
+							          if(o1s.compareTo(o2s) == 0)
+							              return o1s.compareTo(o2s);
+							           else
+							                return -o1s.compareTo(o2s);
+							  }
+							}
+							JavaPairRDD<String,Integer> phase9 = phase8.sortByKey(new Comp());*/
+
+
+				/*				JavaPairRDD<String,Double> phase8 = phase7.sortByKey(new Comparator<Tuple2<String,Double>> implements Serializable {
+								    @Override
+								    public int compare(Tuple2<String,Double> o1s, Tuple2<String,Double> o2s) {
+
+								        if(o1s._1.compareTo(o2s._2) == 0)
+								              return o1s._1.compareTo(o2s._2);
+								        else
+								              return -o1s._1.compareTo(o2s._2);
+								  }
+								});*/
+							/*	JavaPairRDD<String, Tuple2<String,Double>> phase8 = phase7.mapToPair(s ->
+									{
+
+										String[] values = s._1.split("---");
+
+
+										return	new Tuple2<String, Tuple2<String,Double>>(
+																values[1],new Tuple2<String, Double>(values[0], s
+																				._2()));
+									}
+								);*/
+
+	    phase7.saveAsTextFile(outputDataPath);
 	    sc.close();
 	  }
 }
