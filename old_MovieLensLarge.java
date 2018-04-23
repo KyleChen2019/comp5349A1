@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.io.*;
 import java.util.*;
-import java.io.Serializable;
-import java.util.Comparator;
 
 import org.apache.spark.api.java.*;
 import org.apache.spark.SparkConf;
@@ -179,32 +177,6 @@ public class MovieLensLarge {
 								).sortByKey(true);
 
 
-								//successful!
-								/*JavaPairRDD< Tuple2<Tuple2<String,String>,Double>,Double > phase8 = phase7.mapToPair(s ->
-
-								{
-									return	new Tuple2< Tuple2<Tuple2<String,String>,Double>,Double >(
-															new Tuple2<Tuple2<String,String>, Double>(new Tuple2<String, String>(s._1, s
-																			._2._1)
-																			, s._2._2)
-																			, s._2._2);
-								}
-								);*/
-
-								//successful!
-								JavaRDD<Tuple2<Tuple2<String,String>,Double>> phase8 = phase7.map(s ->
-								{
-										return new Tuple2<Tuple2<String,String>,Double>(
-											new Tuple2<String,String>(
-											s._1,s._2._1
-											),s._2._2
-										);
-								}
-
-
-								);
-
-								JavaRDD<Tuple2<Tuple2<String,String>,Double>> phase9 = phase8.sortBy(._2,false).collect();
 
 								/*JavaPairRDD<Tuple<Tuple2<String,String>, Double>,Double> phase8 = phase7.mapToPair(s ->
 									{
@@ -256,7 +228,7 @@ public class MovieLensLarge {
 									}
 								);*/
 
-	    phase8.saveAsTextFile(outputDataPath);
+	    phase7.saveAsTextFile(outputDataPath);
 	    sc.close();
 	  }
 }

@@ -98,4 +98,51 @@ csv split 一行
 		  System.out.println();
 		}
 		
+		
+		
+		1.
+		5.rdd.sortBy(_._2,false).collect();
+		
+		2.
+		val rdd2=rdd1.sortBy(f=>(f._1,f._3)).collect 
+		
+		3.
+		//根据得到的value值排序而不是key，默认只提供了根据key排序
+//那么想到的思路是，交换key、value，进行key排序，交换回来，完成value排序
+counts
+    //交换key-value，注意类型
+    .mapToPair(s -> new Tuple2<Integer, String>(s._2, s._1))
+    //倒序
+    .sortByKey(false)
+    //交换key-value，注意类型
+    .mapToPair(s -> new Tuple2<String, Integer>(s._2, s._1))
+    //转成集合
+    .collect()
+    //输出
+    .forEach(tuple -> System.out.println(tuple._1() + ": " + tuple._2()));
+	
+	
+	4.
+	
+	import java.io.Serializable;  
+	import java.util.Comparator;  
+  
+	public class MyComparator implements Comparator<Integer>, Serializable{  
+		public int compare(Integer x, Integer y) {  
+			return -(y-x);  
+		}   
+	} 
+	JavaPairRDD<Integer, Integer> sortRDD = line2.sortByKey(new  MyComparator());  
+	
+	
+	5.自定义比较器：
+	public class MyComparator implements Comparator<String>,Serializable {
+    @Override
+    public int compare(String o1, String o2) {
+        return Integer.valueOf(o1).compareTo(Integer.valueOf(o2));
+    }
+}
+
+    JavaPairRDD<String, Integer> res = pairRDD.sortByKey();
+			
 	
