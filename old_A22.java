@@ -170,37 +170,29 @@ public class MovieLensLarge {
 									{
 										/*java.text.DecimalFormat df = new java.text.DecimalFormat("#.0");*/
 										String[] values = s._1.split("---");
-										String tmp = values[1].trim();
+
 
 										return	new Tuple2<String, Tuple2<String,Double>>(
-                                tmp,new Tuple2<String, Double>(values[0], s
+                                values[1],new Tuple2<String, Double>(values[0], s
                                         ._2()));
 									}
-								).sortByKey(true,1);
+								).sortByKey(true);
 
-								//get (CA,(mXiFHDfvn4A,1088.398598989435))
 
 								//successful!
-								JavaPairRDD< Tuple2<Tuple2<String,String>,Double>,Double > phase8 = phase7.mapToPair(s ->
+								/*JavaPairRDD< Tuple2<Tuple2<String,String>,Double>,Double > phase8 = phase7.mapToPair(s ->
 
 								{
-
-
-											java.text.DecimalFormat df = new java.text.DecimalFormat("#.0");
-											Double tmpa = Double.valueOf(s._2._2);
-											Double tmpd = Double.valueOf( df.format(tmpa) );
-
-									Double tmp = 1.0;
 									return	new Tuple2< Tuple2<Tuple2<String,String>,Double>,Double >(
 															new Tuple2<Tuple2<String,String>, Double>(new Tuple2<String, String>(s._1, s
 																			._2._1)
-																			, tmpd)
-																			, tmp);
+																			, s._2._2)
+																			, s._2._2);
 								}
-								);
+								);*/
 
 								//successful!
-								/*JavaRDD<Tuple2<Tuple2<String,String>,Double>> phase8 = phase7.map(s ->
+								JavaRDD<Tuple2<Tuple2<String,String>,Double>> phase8 = phase7.map(s ->
 								{
 										return new Tuple2<Tuple2<String,String>,Double>(
 											new Tuple2<String,String>(
@@ -208,78 +200,11 @@ public class MovieLensLarge {
 											),s._2._2
 										);
 								}
-								);*/
 
 
-												//(((CA   ,3TtxYU7oKOI),3504.1865647882837),3504.1865647882837)
-												//(((FR   ,-CQ5P8cLuFY),3565.470852017937),3565.470852017937)
-//JavaPairRDD< Tuple2<Tuple2<String,String>,		Double>,						Double >
-								 class MyComparator implements Comparator<Tuple2<Tuple2<String,String>,Double>>, Serializable{
-								public int compare(Tuple2<Tuple2<String,String>,Double> x, Tuple2<Tuple2<String,String>,Double> y) {
-									int check = x._1._1.compareTo(y._1._1); //country
-									if(check == 0)
-											{return -(x._2.compareTo(y._2)); }   //percentage
-									 else
-												{return (x._2.compareTo(y._2));}
-
-												//return x._1._1.compareTo(y._1._1);
-
-								}
-							}
-
-
-							JavaPairRDD< Tuple2<Tuple2<String,String>,Double>,Double > phase9 = phase8.sortByKey(new  MyComparator(),true,1);
-
-
-
-
-
-
-							//try
-							JavaPairRDD<String, Tuple2<String,Double>> phase10 = phase9.mapToPair(s ->
-
-							{
-
-
-								return	new Tuple2< String, Tuple2<String,Double>>(
-								s._1._1._1, new Tuple2<String,Double>(
-									s._1._1._2,s._1._2
-								)
 								);
-							}
-							);
-							//.sortByKey(true,1);
 
-							JavaPairRDD<Tuple2<String,Double>,String> phase11 = phase10.mapToPair(s ->
-
-							{
-
-
-								return	new Tuple2<Tuple2<String,Double>,String>(
-									new Tuple2<String,Double>(
-									s._1,s._2._2
-									)
-									,s._2._1
-								);
-							});
-
-
-							class comp implements Comparator<Tuple2<String,Double>>, Serializable{
-						 public int compare(Tuple2<String,Double> x, Tuple2<String,Double> y) {
-							 int check = x._1.compareTo(y._1); //country
-							 if(check == 0)
-									 {return -(x._2.compareTo(y._2)); }   //percentage
-								else
-										 return check;
-
-										 //return x._1._1.compareTo(y._1._1);
-
-						 }
-					 }
-
-
-					 JavaPairRDD< Tuple2<String,Double >, String> phase12 = phase11.sortByKey(new  comp(),true,1);
-
+								JavaRDD<Tuple2<Tuple2<String,String>,Double>> phase9 = phase8.sortBy(._2,false).collect();
 
 								/*JavaPairRDD<Tuple<Tuple2<String,String>, Double>,Double> phase8 = phase7.mapToPair(s ->
 									{
@@ -331,7 +256,7 @@ public class MovieLensLarge {
 									}
 								);*/
 
-	    phase12.saveAsTextFile(outputDataPath);
+	    phase8.saveAsTextFile(outputDataPath);
 	    sc.close();
 	  }
 }
