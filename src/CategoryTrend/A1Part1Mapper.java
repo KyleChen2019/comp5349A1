@@ -30,16 +30,16 @@ public class A1Part1Mapper extends Mapper<Object, Text, Text, Text> {
 			if (dataArray.length < 18){ //  record with incomplete data
 				return; // don't emit anything
 			}
-			String tagString = dataArray[5];//category
-			String ownerString = dataArray[17]+dataArray[0];//country+video_id
+			String categoryString = dataArray[5];//category
+			String countryVideoIdString = dataArray[17]+dataArray[0];//country+video_id
 
-			if (tagString.length() > 0){
+			if (categoryString.length() > 0){
 
-					if (asciiEncoder.canEncode(tagString)){
+					if (asciiEncoder.canEncode(categoryString)){
 						if(dataArray[17].equals(countryA)||dataArray[17].equals(countryB))
 						{
-							word.set(tagString);
-							owner.set(ownerString);
+							word.set(categoryString);
+							owner.set(countryVideoIdString);
 							context.write(word, owner);
 						}
 						else{}

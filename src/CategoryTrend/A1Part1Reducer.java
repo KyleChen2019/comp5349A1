@@ -62,7 +62,7 @@ public class A1Part1Reducer extends Reducer<Text, Text, Text, Text> {
 			if(null != ifmatch)
 				{count++;}
 		}
-		java.text.DecimalFormat df = new java.text.DecimalFormat("#0.0");
+		java.text.DecimalFormat dfForPart1 = new java.text.DecimalFormat("#0.0");
 
 			if(listA.size() == 0)
 			{
@@ -73,7 +73,7 @@ public class A1Part1Reducer extends Reducer<Text, Text, Text, Text> {
 			percentage = (count/listA.size())*100;
 			}
 		strBuf.insert(0,"; total: "+listA.size()+"; ");
-		strBuf.append(df.format(percentage)+"% in "+countryB);
+		strBuf.append(dfForPart1.format(percentage)+"% in "+countryB);
 
 		result.set(strBuf.toString());
 		context.write(key, result);
