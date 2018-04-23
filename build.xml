@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="userTag" basedir="." default="jar">
+<project name="CategoryTrend" basedir="." default="jar">
 
 <!-- 每个构建文件都需要以project标签包含起来。
 property类似于常量，可以供给build.xml中的其他标签使用。有两个特点： -->
@@ -47,6 +47,6 @@ property类似于常量，可以供给build.xml中的其他标签使用。有两
     </target>
 
     <target name="EclipseJar" description="create a jar for tag owner list package in Eclipse">
-	<jar destfile="{ant.project.name}.jar" basedir="${eclipseclasses.dir}" includes="usertag/*.class"/>
+	<jar destfile="{ant.project.name}.jar" basedir="${eclipseclasses.dir}" includes="CategoryTrend/*.class"/>
 	</target>
 </project>
