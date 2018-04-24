@@ -28,7 +28,7 @@ public class A1Part1Driver {
 		conf.set("countryBB",tmpCountryB);
 		//设置Job属性
 		Job job = new Job(conf, "tag owner inverted list");
-		job.setNumReduceTasks(1);
+		job.setNumReduceTasks(3);
 		job.setJarByClass(A1Part1Driver.class);
 		job.setMapperClass(A1Part1Mapper.class);
 		//将结果进行局部合并
